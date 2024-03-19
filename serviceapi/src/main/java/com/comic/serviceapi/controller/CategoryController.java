@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.comic.serviceapi.dto.CategoryDto;
 import com.comic.serviceapi.service.CategoryService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/category")
+@Slf4j
 public class CategoryController {
 
 	@Autowired
@@ -41,9 +44,11 @@ public class CategoryController {
 	public ResponseEntity<String> save(@RequestBody CategoryDto categoryDto) {
 		Optional<CategoryDto> categoryByName = categoryService.findByName(categoryDto.getName());
 		if (categoryByName.isPresent()) {
+			log.info("Name exists!");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name is exists!");
 		}
 		
+		log.info("Create category success!");
 		categoryService.store(categoryDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body("Create Category success!");
 	}
@@ -53,12 +58,13 @@ public class CategoryController {
 			@RequestBody CategoryDto categoryDto) {
 		Optional<CategoryDto> categoryByName = categoryService.findByName(categoryDto.getName());
 		if (categoryByName.isPresent() && !categoryDto.getName().equals(categoryByName.get().getName())) {
+			log.info("Name is exists!");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name is exists!");
 		}
 		
 		categoryDto.setId(id);
 		categoryService.store(categoryDto);
-		
+		log.info("Update category success!");
 		return ResponseEntity.status(HttpStatus.OK).body("Update is success");
 	}
 	
@@ -67,10 +73,12 @@ public class CategoryController {
 		Optional<CategoryDto> categoryByName = categoryService.findById(id);
 		
 		if (categoryByName.isEmpty()) {
+			log.info("Create doesn't exists!");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Category doesn't exists");
 		}
 		
 		categoryService.delete(categoryByName.get());
+		log.info("Delete category success!");
 		return ResponseEntity.status(HttpStatus.CREATED).body("Delete Category success!");
 	}
 }
