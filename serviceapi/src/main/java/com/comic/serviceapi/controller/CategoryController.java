@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comic.serviceapi.dto.CategoryDto;
@@ -29,15 +30,16 @@ public class CategoryController {
 	private CategoryService categoryService;
 	
 	@GetMapping(value = {"", "/"})
-	public ResponseEntity<List<CategoryDto>> findAll() {
-		List<CategoryDto> categoryDtos = categoryService.findAll();
+	public ResponseEntity<List<CategoryDto>> findAll(
+			@RequestParam(name="q", defaultValue="") String name) {
+		List<CategoryDto> categoryDtos = categoryService.findByNameContains(name);
 		return ResponseEntity.status(HttpStatus.OK).body(categoryDtos);
 	}
 	
-	@GetMapping("/{name}")
-	public ResponseEntity<List<CategoryDto>> findByName(@PathVariable String name) {
-		List<CategoryDto> categoryDtos = categoryService.findByNameContains(name);
-		return ResponseEntity.status(HttpStatus.OK).body(categoryDtos);
+	@GetMapping("/{id}")
+	public ResponseEntity<Optional<CategoryDto>> findById(@PathVariable Integer id) {
+		Optional<CategoryDto> categoryDto = categoryService.findById(id);
+		return ResponseEntity.status(HttpStatus.OK).body(categoryDto);
 	}
 	
 	@PostMapping("")

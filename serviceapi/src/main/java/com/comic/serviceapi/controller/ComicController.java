@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comic.serviceapi.dto.ComicDto;
@@ -28,16 +29,17 @@ public class ComicController {
 	@Autowired
 	private ComicService comicService;
 	
-	@GetMapping(value = {"", "/"})
-	public ResponseEntity<List<ComicDto>> findAll() {
-		List<ComicDto> ComicDtos = comicService.findAll();
+	@GetMapping(value= {"", "/"})
+	public ResponseEntity<List<ComicDto>> search(
+			@RequestParam(value="q", defaultValue="") String title) {
+		List<ComicDto> ComicDtos = comicService.findByTitleContains(title);
 		return ResponseEntity.status(HttpStatus.OK).body(ComicDtos);
 	}
 	
-	@GetMapping("/{title}")
-	public ResponseEntity<List<ComicDto>> findByName(@PathVariable String title) {
-		List<ComicDto> ComicDtos = comicService.findByTitleContains(title);
-		return ResponseEntity.status(HttpStatus.OK).body(ComicDtos);
+	@GetMapping("/{id}")
+	public ResponseEntity<Optional<ComicDto>> findById(@PathVariable Integer id) {
+		Optional<ComicDto> comicDto = comicService.findById(id);
+		return ResponseEntity.status(HttpStatus.OK).body(comicDto);
 	}
 	
 	@PostMapping("")
