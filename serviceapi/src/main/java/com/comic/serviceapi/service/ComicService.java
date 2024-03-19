@@ -9,6 +9,7 @@ public interface ComicService {
 
 	public void store(ComicDto comicDto);
 	public void delete(ComicDto comicDto);
+	public void changeStatus(Integer id, Byte status);
 	
 	public Optional<ComicDto> findById(Integer id);
 	public List<ComicDto> findAll();

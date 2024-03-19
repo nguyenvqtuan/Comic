@@ -33,6 +33,11 @@ public class ComicServiceImpl implements ComicService{
 	}
 
 	@Override
+	public void changeStatus(Integer id, Byte status) {
+		comicRepo.changeStatus(id, status);
+	}
+	
+	@Override
 	public Optional<ComicDto> findById(Integer id) {
 		return comicRepo.findById(id).map(e -> toComicDto(e));
 	}

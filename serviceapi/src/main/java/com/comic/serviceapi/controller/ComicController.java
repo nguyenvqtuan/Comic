@@ -55,6 +55,18 @@ public class ComicController {
 		return ResponseEntity.status(HttpStatus.CREATED).body("Create comic success!");
 	}
 	
+	@PostMapping("/{id}")
+	public ResponseEntity<String> changeStatus(@PathVariable Integer id,
+			@RequestParam(name="status", required=true) Byte status) {
+		Optional<ComicDto> comicDto = comicService.findById(id);
+		if (comicDto.isEmpty()) {
+			log.info("Comic not found!");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Comic not found!");
+		}
+		comicService.changeStatus(id, status);
+		return ResponseEntity.status(HttpStatus.OK).body("Change status success!");
+	}
+	
 	@PutMapping("/{id}")
 	public ResponseEntity<String> update(@PathVariable Integer id,
 			@RequestBody ComicDto ComicDto) {

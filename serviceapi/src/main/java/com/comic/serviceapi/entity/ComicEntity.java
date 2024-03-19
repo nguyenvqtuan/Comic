@@ -41,7 +41,7 @@ public class ComicEntity {
 	@Column
 	private String description;
 	
-	@Column(columnDefinition=" INT(11) NOT NULL COMMENT '0 for no action, 1 for in-progres, 2 for pending, 3 for done'")
+	@Column(columnDefinition=" INT(11) NOT NULL COMMENT '0 for no action, 1 for in-progress, 2 for pending, 3 for done'")
 	private byte status;
 	
 	@Column
