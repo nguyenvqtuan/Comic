@@ -47,7 +47,7 @@ public class CategoryController {
 		Optional<CategoryDto> categoryByName = categoryService.findByName(categoryDto.getName());
 		if (categoryByName.isPresent()) {
 			log.info("Name exists!");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name is exists!");
+			return ResponseEntity.status(HttpStatus.IM_USED).body("Name is exists!");
 		}
 		
 		log.info("Create category success!");
