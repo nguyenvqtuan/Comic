@@ -1,5 +1,5 @@
 <form xmlns:th="http://www.thymeleaf.org" id="form-update" data-parsley-validate
-	class="form-horizontal form-label-left" th:method="PUT" th:object="${comic}" enctype="multipart/form-data">
+	class="form-horizontal form-label-left" th:action="@{/comic/{id}(id=${comic.id})}" th:method="PUT" th:object="${comic}" enctype="multipart/form-data">
 	<div class="item form-group">
 		<label class="col-form-label col-md-3 col-sm-3 label-align"
 			for="title">Title<span class="required">*</span>
@@ -14,7 +14,7 @@
 			for="file">Image <span class="required">*</span>
 		</label>
 		<div class="col-md-6 col-sm-6 ">
-			<input type="file" name="file" id="file" required="required"
+			<input type="file" name="file" id="file"
 				class="form-control" accept=".png, .jpg, .jpeg">
 		</div>
 	</div>
@@ -42,29 +42,4 @@
 			<button type="submit" class="btn btn-success">Submit</button>
 		</div>
 	</div>
-	
-	<script th:inline="javascript">
-	$("#form-update").submit(function(e) {
-		e.preventDefault();
-		
-		let form = $(this);
-		let data = new FormData($(this)[0]);
-		
-		let id = [[${comic.id}]];
-		$.modal.close();
-		$.ajax({
-		  contentType: false,
-		  enctype: 'multipart/form-data',
-		  type: "PUT",
-		  data: data,
-		  processData: false,
-		  url: "/comic/" + id,
-		  headers: {
-		      "Accept": "application/json"
-		    }
-		}).done(function(result) {
-			toastr.info(result);
-		})
-	})
-	</script>
 </form>

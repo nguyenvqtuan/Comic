@@ -73,29 +73,36 @@ public class ComicController {
 	}
 	
 	@PostMapping(value="")
-	@ResponseBody
-	public ResponseEntity<?> insert(@ModelAttribute ComicDto comicDto, 
-			@RequestParam("file") MultipartFile file) {
+	public String insert(@ModelAttribute ComicDto comicDto, 
+			@RequestParam("file") MultipartFile file, RedirectAttributes redir) {
 		String fileId = googleDriveService.uploadFile(file);
 		comicDto.setImage(fileId);
-		return comicClient.add(comicDto);
+		ResponseEntity<String> added = comicClient.add(comicDto);
+		redir.addFlashAttribute("message", added.getBody());
+		return "redirect:/comic";
 	}
 	
 	@PutMapping(value="/{id}")
-	@ResponseBody
-	public ResponseEntity<?> update(@PathVariable Integer id, 
+	public String update(@PathVariable Integer id, 
 			@ModelAttribute ComicDto comicDto, 
-			@RequestParam("file") MultipartFile file) {
+			@RequestParam("file") MultipartFile file, RedirectAttributes redir) {
 		Optional<ComicDto> comic = comicClient.findById(id).getBody();
 		String imageFile = null == file ? comic.get().getImage() : googleDriveService.uploadFile(file);
 		comicDto.setImage(imageFile);
-		return comicClient.update(id, comicDto);
+		ResponseEntity<String> updated = comicClient.update(id, comicDto);
+		redir.addFlashAttribute("message", updated.getBody());
+
+		return "redirect:/comic";
 	}
 	
 	@DeleteMapping(value="/{id}")
 	public String delete(@PathVariable Integer id, RedirectAttributes attr) {
+		Optional<ComicDto> comic = comicClient.findById(id).getBody();
+		googleDriveService.deleteFile(comic.get().getImage());
+		
 		ResponseEntity<String> delete = comicClient.delete(id);
 		attr.addFlashAttribute("message", delete.getBody());
+		
 		return "redirect:/comic";
 	}
 	

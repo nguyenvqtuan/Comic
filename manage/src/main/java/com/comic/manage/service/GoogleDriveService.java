@@ -121,10 +121,15 @@ public class GoogleDriveService {
 		}
 		return null;
 	}
-	
-	public String findById() throws GeneralSecurityException, IOException {
-		Drive drive = getInstance();
-		File file = drive.files().get("1_AVKFa0u-C3Mi3vJ-ev4mZNX_dK5bxzs").execute();
-		return "abc";
+
+	public void deleteFile(String id) {
+		try {
+			getInstance().files().delete(id).execute();
+		} catch (IOException e) {
+			System.out.println("An error occurred: " + e);
+		} catch (GeneralSecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
