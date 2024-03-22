@@ -1,0 +1,21 @@
+<form xmlns:th="http://www.thymeleaf.org" id="form-add" data-parsley-validate
+	class="form-horizontal form-label-left" th:action="@{/test}" method="POST" enctype="multipart/form-data">
+	<div class="item form-group">
+		<label class="col-form-label col-md-3 col-sm-3 label-align"
+			for="descripiton">Description
+		</label>
+		<div class="col-md-6 col-sm-6 ">
+			<input type="file" id="file" name="file"
+				class="form-control">
+		</div>
+	</div>
+	<div class="ln_solid"></div>
+	<div class="item form-group">
+		<div class="col-md-6 col-sm-6 offset-md-3">
+			<button class="btn btn-primary" type="reset">Reset</button>
+			<button type="submit" class="btn btn-success">Submit</button>
+		</div>
+	</div>
+	     <img src="https://drive.google.com/thumbnail?id=1ssF5F-g6ZOYS8ZwqeQOaU48fgyArOOeB&sz=w150" alt="Page Image">
+	<img src="https://drive.google.com/uc?export=view&id=1ssF5F-g6ZOYS8ZwqeQOaU48fgyArOOeB" alt="Flowers in Chania">
+</form>
