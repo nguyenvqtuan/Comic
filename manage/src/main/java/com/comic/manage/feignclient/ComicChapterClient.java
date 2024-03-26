@@ -11,24 +11,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.comic.manage.dto.ComicDto;
+import com.comic.manage.dto.ComicChapterDto;
 
-@FeignClient(name="comic", url="http://localhost:8081/comic")
-public interface ComicClient {
+@FeignClient(name = "comic-chapter", url="http://localhost:8081/comic/chapter")
+public interface ComicChapterClient {
 
 	@GetMapping("")
-	public ResponseEntity<List<ComicDto>> findAll();
+	public ResponseEntity<List<ComicChapterDto>> findAll();
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<ComicDto>> findById(@PathVariable Integer id);
+	public ResponseEntity<Optional<ComicChapterDto>> findById(@PathVariable Integer id);
 	
 	@PostMapping("")
-	public ResponseEntity<String> add(@RequestBody ComicDto comicDto);
+	public ResponseEntity<String> add(@RequestBody ComicChapterDto comicChapterDto);
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<String> update(@PathVariable Integer id, @RequestBody ComicDto categoryDto);
+	public ResponseEntity<String> update(@PathVariable Integer id, @RequestBody ComicChapterDto categoryDto);
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> delete(@PathVariable Integer id);
+
+	@PostMapping("/{id}/upload")
+	public ResponseEntity<String> uploadContent(@PathVariable Integer id, @RequestParam String content);
 }

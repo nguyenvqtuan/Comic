@@ -33,6 +33,11 @@ public class ComicChapterServiceImpl implements ComicChapterService{
 	}
 
 	@Override
+	public void upload(Integer id, String content) {
+		comicRepo.upload(id, content);
+	}
+	
+	@Override
 	public Optional<ComicChapterDto> findById(Integer id) {
 		return comicRepo.findById(id).map(e -> toComicChapterDto(e));
 	}

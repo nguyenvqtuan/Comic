@@ -69,6 +69,13 @@ public class ComicChapterController {
 		return ResponseEntity.status(HttpStatus.OK).body("Update is success");
 	}
 	
+	@PostMapping("/{id}/upload")
+	public ResponseEntity<String> upload(@PathVariable Integer id, @RequestParam String content) {
+		comicChapterService.upload(id, content);
+		log.info("Upload success");
+		return ResponseEntity.status(HttpStatus.OK).body("Upload success");
+	}
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> delete(@PathVariable Integer id) {
 		Optional<ComicChapterDto> comicChapterByTitle = comicChapterService.findById(id);

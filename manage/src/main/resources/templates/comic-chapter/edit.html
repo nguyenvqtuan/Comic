@@ -1,0 +1,28 @@
+<form xmlns:th="http://www.thymeleaf.org" id="form-update" data-parsley-validate
+	class="form-horizontal form-label-left" th:action="@{/comic/chapter/{id}(id=${comicChapter.id})}" th:method="PUT" th:object="${comicChapter}">
+	<div class="item form-group">
+		<label class="col-form-label col-md-3 col-sm-3 label-align"
+			for="title">Title<span class="required">*</span>
+		</label>
+		<div class="col-md-6 col-sm-6 ">
+			<input th:field="*{title}" type="text" name="title" id="title" required="required"
+				class="form-control ">
+		</div>
+	</div>
+	<div class="item form-group">
+		<label class="col-form-label col-md-3 col-sm-3 label-align"
+			for="numOrder">Num order
+		</label>
+		<div class="col-md-6 col-sm-6 ">
+			<input  th:field="*{numOrder}"  type="number" id="numOrder" name="numOrder"
+				class="form-control">
+		</div>
+	</div>
+	<div class="ln_solid"></div>
+	<div class="item form-group">
+		<div class="col-md-6 col-sm-6 offset-md-3">
+			<button class="btn btn-primary" type="reset">Reset</button>
+			<button type="submit" class="btn btn-success">Submit</button>
+		</div>
+	</div>
+</form>

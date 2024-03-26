@@ -1,0 +1,42 @@
+<form xmlns:th="http://www.thymeleaf.org" id="form-upload" data-parsley-validate
+	class="form-horizontal form-label-left" method="POST" th:action="@{/comic/chapter/{id}/upload(id=${id})}">
+	<div class="item form-group">
+		<div class="col-md-12 col-sm-12 ">
+			<div id="fileuploader">Upload Content</div>
+		</div>
+	</div>
+	<div class="ln_solid"></div>
+	<div class="item form-group">
+		<div class="col-md-6 col-sm-6 offset-md-3">
+		<input type="hidden" id="content" name="content"/>
+			<button id="btn-submit" type=button class="btn btn-success">Submit</button>
+		</div>
+	</div>
+	<script>
+	$(document).ready(function()
+	{
+		var url = "/comic/chapter/upload";
+		var fielUploader = $("#fileuploader").uploadFile({
+			url: url,
+			multiple:true,
+			dragDrop:true,
+			fileName:"myfile",
+			acceptFiles:"image/*",
+			autoSubmit:false,
+			onSuccess: function(file, data, xhr, pd) {
+				$("#content").val(function() {
+					return this.value + data;
+				});
+				toastr.info("Upload success!");
+			},
+			afterUploadAll:function(obj) {
+				$("#form-upload").submit();	
+			}
+		});
+		$("#btn-submit").click(function(e) {
+			e.preventDefault();
+			fielUploader.startUpload();
+		});
+	});
+	</script>
+</form>

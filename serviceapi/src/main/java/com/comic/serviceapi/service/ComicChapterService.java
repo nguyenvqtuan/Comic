@@ -9,6 +9,7 @@ public interface ComicChapterService {
 
 	public void store(ComicChapterDto ComicChapterDto);
 	public void delete(ComicChapterDto ComicChapterDto);
+	public void upload(Integer id, String content);
 	
 	public Optional<ComicChapterDto> findById(Integer id);
 	public List<ComicChapterDto> findAll();
