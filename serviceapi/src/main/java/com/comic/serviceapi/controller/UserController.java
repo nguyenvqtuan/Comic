@@ -7,12 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comic.serviceapi.dto.UserDto;
 import com.comic.serviceapi.service.UserService;
 
-@RestController("/user")
+@RestController
+@RequestMapping("/user")
 public class UserController {
 
 	@Autowired
