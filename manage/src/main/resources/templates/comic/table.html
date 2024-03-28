@@ -144,7 +144,10 @@
 															<td th:text="${data.follow}"></td>
 															<td th:text="${data.view}"></td>
 															<td th:text="${data.status}"></td>
-															<td><a th:href="@{/comic/edit/{id}(id=${data.id})}" href="#modal-update" class="text-primary" rel="modal:open"><i
+															<td>
+																<a th:href="@{/comic/{id}/chapter(id=${data.id})}" class="text-primary">
+																<i class="fa fa-info pr-1"></i></a>
+																<a th:href="@{/comic/edit/{id}(id=${data.id})}" href="#modal-update" class="text-primary" rel="modal:open"><i
 																	class="fa fa-edit"></i></a> 
 																<form style="display:inline" th:method="DELETE" th:action="@{/comic/{id}(id=${data.id})}" class="form-delete">
 																	<button style="border:none" type="button" class="text-primary"><i

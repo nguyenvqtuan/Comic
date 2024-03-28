@@ -112,7 +112,7 @@
 												<a class="dropdown-item" href="#">Settings 2</a>
 											</div></li>
 										<li><a id="button-add" href="#modal-add" class="text-primary" rel="modal:open"><i
-												class="fa fa-plus"></i> Add comic</a></li>
+												class="fa fa-plus"></i> Add comic chapter</a></li>
 										<li><a class="close-link"><i class="fa fa-close"></i></a>
 										</li>
 									</ul>
@@ -138,11 +138,11 @@
 															<td th:text="${data.title}"></td>
 															<td th:text="${data.numOrder}"></td>
 															<td>
-																<a th:href="@{/comic/chapter/{id}/upload(id=${data.id})}" href="#modal-upload" class="text-primary" rel="modal:open"><i
-																	class="fa fa-edit"></i></a>
-															<a th:href="@{/comic/chapter/edit/{id}(id=${data.id})}" href="#modal-update" class="text-primary" rel="modal:open"><i
+																<a th:href="@{/comic/{comicId}/chapter/{id}/upload(comicId=${comicId}, id=${data.id})}" href="#modal-upload" class="text-primary pr-1" rel="modal:open"><i
+																	class="fa fa-upload"></i></a> 
+																<a th:href="@{/comic/{comicId}/chapter/edit/{id}(comicId=${comicId}, id=${data.id})}" href="#modal-update" class="text-primary" rel="modal:open"><i
 																	class="fa fa-edit"></i></a> 
-																<form style="display:inline" th:method="DELETE" th:action="@{/comic/chapter/{id}(id=${data.id})}" class="form-delete">
+																<form style="display:inline" th:method="DELETE" th:action="@{/comic/{comicId}/chapter/{id}(comicId=${comicId},id=${data.id})}" class="form-delete">
 																	<button style="border:none" type="button" class="text-primary"><i
 																	class="fa fa-remove"></i></button>
 																</form>
@@ -244,11 +244,12 @@
 	<!-- Jquery upload file -->
 	<script src="http://hayageek.github.io/jQuery-Upload-File/4.0.11/jquery.uploadfile.min.js"></script>
 	
-	<script>
+	<script th:inline="javascript">
 		$("#button-add").on("click", function(e) {
 			e.preventDefault();
+			let url = '/comic/' + [[${comicId}]] + '/chapter/add' ;
 			$.ajax({
-			  url: "/comic/chapter/add",
+			  url: url,
 			  context: document.body
 			}).done(function(result) {
 			  $("#modal-add .content").html(result);

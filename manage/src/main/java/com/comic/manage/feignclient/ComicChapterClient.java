@@ -15,24 +15,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.comic.manage.dto.ComicChapterDto;
 
-@FeignClient(name = "comic-chapter", url="http://localhost:8081/comic/chapter")
+@FeignClient(name = "comic-chapter", url="http://localhost:8081/comic/")
 public interface ComicChapterClient {
 
-	@GetMapping("")
-	public ResponseEntity<List<ComicChapterDto>> findAll();
+	@GetMapping("{comicId}/chapter")
+	public ResponseEntity<List<ComicChapterDto>> findAll(@PathVariable Integer comicId);
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<Optional<ComicChapterDto>> findById(@PathVariable Integer id);
+	@GetMapping("{comicId}/chapter/{id}")
+	public ResponseEntity<Optional<ComicChapterDto>> findById(@PathVariable Integer comicId, @PathVariable Integer id);
 	
-	@PostMapping("")
-	public ResponseEntity<String> add(@RequestBody ComicChapterDto comicChapterDto);
+	@PostMapping("{comicId}/chapter")
+	public ResponseEntity<String> add(@PathVariable Integer comicId, @RequestBody ComicChapterDto comicChapterDto);
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<String> update(@PathVariable Integer id, @RequestBody ComicChapterDto categoryDto);
+	@PutMapping("{comicId}/chapter/{id}")
+	public ResponseEntity<String> update(@PathVariable Integer comicId, @PathVariable Integer id, @RequestBody ComicChapterDto categoryDto);
 	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Integer id);
+	@DeleteMapping("{comicId}/chapter/{id}")
+	public ResponseEntity<String> delete(@PathVariable Integer comicId, @PathVariable Integer id);
 
-	@PostMapping("/{id}/upload")
-	public ResponseEntity<String> uploadContent(@PathVariable Integer id, @RequestParam String content);
+	@PostMapping("{comicId}/chapter/{id}/upload")
+	public ResponseEntity<String> uploadContent(@PathVariable Integer comicId, @PathVariable Integer id, @RequestParam String content);
 }

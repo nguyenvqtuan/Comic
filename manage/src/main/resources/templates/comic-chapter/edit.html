@@ -1,5 +1,5 @@
 <form xmlns:th="http://www.thymeleaf.org" id="form-update" data-parsley-validate
-	class="form-horizontal form-label-left" th:action="@{/comic/chapter/{id}(id=${comicChapter.id})}" th:method="PUT" th:object="${comicChapter}">
+	class="form-horizontal form-label-left" th:action="@{/comic/{comicId}/chapter/{id}(comicId=${comicId}, id=${comicChapter.id})}" th:method="PUT" th:object="${comicChapter}">
 	<div class="item form-group">
 		<label class="col-form-label col-md-3 col-sm-3 label-align"
 			for="title">Title<span class="required">*</span>

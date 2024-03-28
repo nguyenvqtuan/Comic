@@ -1,5 +1,5 @@
 <form xmlns:th="http://www.thymeleaf.org" id="form-upload" data-parsley-validate
-	class="form-horizontal form-label-left" method="POST" th:action="@{/comic/chapter/{id}/upload(id=${id})}">
+	class="form-horizontal form-label-left" method="POST" th:action="@{/comic/{comicId}/chapter/{id}/upload(comicId=${comicId}, id=${id})}">
 	<div class="item form-group">
 		<div class="col-md-12 col-sm-12 ">
 			<div id="fileuploader">Upload Content</div>
@@ -12,12 +12,12 @@
 			<button id="btn-submit" type=button class="btn btn-success">Submit</button>
 		</div>
 	</div>
-	<script>
+	<script th:inline="javascript">
 	$(document).ready(function()
 	{
-		var url = "/comic/chapter/upload";
+		var urlUpload = "/comic" + [[${comicId}]] + "/chapter/upload";
 		var fielUploader = $("#fileuploader").uploadFile({
-			url: url,
+			url: urlUpload,
 			multiple:true,
 			dragDrop:true,
 			fileName:"myfile",

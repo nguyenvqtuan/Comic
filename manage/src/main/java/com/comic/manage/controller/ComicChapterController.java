@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +26,7 @@ import com.comic.manage.feignclient.ComicChapterClient;
 import com.comic.manage.service.GoogleDriveService;
 
 @Controller
-@RequestMapping("/comic/{idComic}/chapter/")
+@RequestMapping("/comic/{comicId}/chapter")
 public class ComicChapterController {
 
 	@Autowired
@@ -37,67 +36,69 @@ public class ComicChapterController {
 	private ComicChapterClient comicChapterClient;
 	
 	@GetMapping("")
-	public String index(@PathVariable Integer idComic, Model model) {
-		ResponseEntity<List<ComicChapterDto>> comicChapters = comicChapterClient.findAll();
+	public String index(@PathVariable Integer comicId, Model model) {
+		ResponseEntity<List<ComicChapterDto>> comicChapters = comicChapterClient.findAll(comicId);
 		model.addAttribute("comicChapters", comicChapters.getBody());
+		model.addAttribute("comicId", comicId);
 		return "/comic-chapter/table.html";
 	}
 	
 	@GetMapping("/add")
-	public String add(Model model) {
-		model.addAttribute("comicChapter", new ComicChapterDto());
-		model.addAttribute("comicChapters", comicChapterClient.findAll().getBody());
+	public String add(@PathVariable Integer comicId, Model model) {
+		model.addAttribute("comicChapter", ComicChapterDto.builder().comicId(comicId).build());
+		model.addAttribute("comicChapters", comicChapterClient.findAll(comicId).getBody());
 		return "/comic-chapter/add.html";
 	}
 	
 	@GetMapping("/edit/{id}")
-	public String edit(@PathVariable Integer id, 
+	public String edit(@PathVariable Integer comicId, @PathVariable Integer id, 
 			Model model) {
-		Optional<ComicChapterDto> comicChapter = comicChapterClient.findById(id).getBody();
+		Optional<ComicChapterDto> comicChapter = comicChapterClient.findById(comicId, id).getBody();
 		
 		if (comicChapter.isEmpty()) {
-			return "redirect:/comic/chapter";
+			return "redirect:/comic/" + comicId + "/chapter";
 		}
+		model.addAttribute("comicId", comicId);
 		model.addAttribute("comicChapter", comicChapter.get());
-		model.addAttribute("comicChapters", comicChapterClient.findAll().getBody());
+		model.addAttribute("comicChapters", comicChapterClient.findAll(comicId).getBody());
 		return "/comic-chapter/edit.html";
 	}
 	
 	@GetMapping("/{id}/upload")
-	public String uploadForm(@PathVariable Integer id, Model model) {
+	public String uploadForm(@PathVariable Integer comicId, @PathVariable Integer id, Model model) {
+		model.addAttribute("comicId", comicId);
 		model.addAttribute("id", id);
 		return "comic-chapter/upload.html";
 	}
 	
 	@PostMapping(value="")
-	public String insert(@ModelAttribute ComicChapterDto comicChapterDto, RedirectAttributes redir) {
-		ResponseEntity<String> added = comicChapterClient.add(comicChapterDto);
+	public String insert(@PathVariable Integer comicId, @ModelAttribute ComicChapterDto comicChapterDto, RedirectAttributes redir) {
+		ResponseEntity<String> added = comicChapterClient.add(comicId, comicChapterDto);
 		redir.addFlashAttribute("message", added.getBody());
-		return "redirect:/comic/chapter";
+		return "redirect:/comic/" + comicId + "/chapter";
 	}
 	
 	@PutMapping(value="/{id}")
-	public String update(@PathVariable Integer id, 
-			@ModelAttribute ComicChapterDto comicChapterDto, 
-			@RequestParam("file") MultipartFile file, RedirectAttributes redir) {
-		Optional<ComicChapterDto> comicChapter = comicChapterClient.findById(id).getBody();
+	public String update(@PathVariable Integer comicId, @PathVariable Integer id, 
+			@ModelAttribute ComicChapterDto comicChapterDto, RedirectAttributes redir) {
+		Optional<ComicChapterDto> comicChapter = comicChapterClient.findById(comicId, id).getBody();
 		comicChapterDto.setContent(comicChapter.get().getContent());
-		ResponseEntity<String> updated = comicChapterClient.update(id, comicChapterDto);
+		ResponseEntity<String> updated = comicChapterClient.update(comicId, id, comicChapterDto);
 		redir.addFlashAttribute("message", updated.getBody());
 
-		return "redirect:/comic/chapter";
+		return "redirect:/comic/" + comicId + "/chapter";
 	}
 	
 	@DeleteMapping(value="/{id}")
-	public String delete(@PathVariable Integer id, RedirectAttributes attr) {
-		Optional<ComicChapterDto> comicChapter = comicChapterClient.findById(id).getBody();
+	public String delete(@PathVariable Integer comicId, @PathVariable Integer id, RedirectAttributes attr) {
+		Optional<ComicChapterDto> comicChapter = comicChapterClient.findById(comicId, id).getBody();
 		Arrays.asList(comicChapter.get().getContent().split(";")).stream().forEach(f -> {
 			googleDriveService.deleteFile(f);
 		});
-		ResponseEntity<String> delete = comicChapterClient.delete(id);
+		ResponseEntity<String> delete = comicChapterClient.delete(comicId, id);
 		attr.addFlashAttribute("message", delete.getBody());
 		
-		return "redirect:/comic/chapter";
+		return "redirect:/comic/" + comicId + "/chapter";
 	}
 	
 	@PostMapping(value="/upload")
@@ -113,16 +114,16 @@ public class ComicChapterController {
 	
 	
 	@PostMapping(value="/{id}/upload")
-	public String upload(@PathVariable Integer id, 
+	public String upload(@PathVariable Integer comicId, @PathVariable Integer id, 
 			@RequestParam String content, RedirectAttributes redir) {
 		// Remove all content previous
-		ComicChapterDto comicChapter = comicChapterClient.findById(id).getBody().get();
+		ComicChapterDto comicChapter = comicChapterClient.findById(comicId, id).getBody().get();
 		Arrays.asList(comicChapter.getContent().split(";")).stream().forEach(f -> {
 			googleDriveService.deleteFile(f);
 		});
 		
 		redir.addFlashAttribute("message", "Upload success");
-		comicChapterClient.uploadContent(id, content);
-		return "redirect:/comic/chapter";
+		comicChapterClient.uploadContent(comicId, id, content);
+		return "redirect:/comic/" + comicId + "/chapter";
 	}
 }
