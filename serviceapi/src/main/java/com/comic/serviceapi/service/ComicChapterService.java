@@ -13,6 +13,6 @@ public interface ComicChapterService {
 	
 	public Optional<ComicChapterDto> findById(Integer id);
 	public List<ComicChapterDto> findAll();
-	public List<ComicChapterDto> findByTitleContains(String title);
+	public List<ComicChapterDto> findByComicId(Integer comicId);
 	public Optional<ComicChapterDto> findByTitle(String title);
 }

@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebMvcTest(value=ComicChapterController.class)
 public class ComicChapterControllerTest {
 	
-	private static final String END_POINT = "/comic/chapter";
+	private static final String END_POINT = "/comic/" + 1 + "/chapter";
 	
 	@Autowired
 	private MockMvc mockMvc;

@@ -27,7 +27,7 @@ import com.comic.manage.feignclient.ComicChapterClient;
 import com.comic.manage.service.GoogleDriveService;
 
 @Controller
-@RequestMapping("/comic/chapter")
+@RequestMapping("/comic/{idComic}/chapter/")
 public class ComicChapterController {
 
 	@Autowired
@@ -37,7 +37,7 @@ public class ComicChapterController {
 	private ComicChapterClient comicChapterClient;
 	
 	@GetMapping("")
-	public String index(Model model) {
+	public String index(@PathVariable Integer idComic, Model model) {
 		ResponseEntity<List<ComicChapterDto>> comicChapters = comicChapterClient.findAll();
 		model.addAttribute("comicChapters", comicChapters.getBody());
 		return "/comic-chapter/table.html";

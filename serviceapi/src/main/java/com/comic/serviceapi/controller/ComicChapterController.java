@@ -22,7 +22,7 @@ import com.comic.serviceapi.service.ComicChapterService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/comic/chapter")
+@RequestMapping("/comic/{comicId}/chapter")
 @Slf4j
 public class ComicChapterController {
 	@Autowired
@@ -30,40 +30,35 @@ public class ComicChapterController {
 	
 	@GetMapping(value = {"", "/"})
 	public ResponseEntity<List<ComicChapterDto>> findAll(
+			@PathVariable Integer comicId, 
 			@RequestParam(name="q", defaultValue="") String name) {
-		List<ComicChapterDto> comicChapterDtos = comicChapterService.findByTitleContains(name);
+		List<ComicChapterDto> comicChapterDtos = comicChapterService.findByComicId(comicId);
 		return ResponseEntity.status(HttpStatus.OK).body(comicChapterDtos);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<ComicChapterDto>> findById(@PathVariable Integer id) {
+	public ResponseEntity<Optional<ComicChapterDto>> findById(
+			@PathVariable Integer id) {
 		Optional<ComicChapterDto> comicChapterDto = comicChapterService.findById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(comicChapterDto);
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<String> save(@RequestBody ComicChapterDto comicChapterDto) {
-		Optional<ComicChapterDto> comicChapterByTitle = comicChapterService.findByTitle(comicChapterDto.getTitle());
-		if (comicChapterByTitle.isPresent()) {
-			log.info("Title is exists!");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Title is exists!");
-		}
+	public ResponseEntity<String> save(
+			@PathVariable Integer comicId,
+			@RequestBody ComicChapterDto comicChapterDto) {
 		
+		comicChapterDto.setComicId(comicId);
 		log.info("Create comic chapter success!");
 		comicChapterService.store(comicChapterDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body("Create Comic Chapter success!");
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<String> update(@PathVariable Integer id,
+	public ResponseEntity<String> update(@PathVariable Integer comicId, @PathVariable Integer id,
 			@RequestBody ComicChapterDto comicChapterDto) {
-		Optional<ComicChapterDto> comicByTitle = comicChapterService.findByTitle(comicChapterDto.getTitle());
-		if (comicByTitle.isPresent() && !comicChapterDto.getTitle().equals(comicByTitle.get().getTitle())) {
-			log.info("Title is exists!");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Title is exists!");
-		}
-		
 		comicChapterDto.setId(id);
+		comicChapterDto.setComicId(comicId);
 		comicChapterService.store(comicChapterDto);
 		log.info("Update comic chapter success!");
 		return ResponseEntity.status(HttpStatus.OK).body("Update is success");

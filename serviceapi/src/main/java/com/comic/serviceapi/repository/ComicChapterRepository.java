@@ -14,7 +14,9 @@ import com.comic.serviceapi.entity.ComicChapterEntity;
 @Repository
 @Transactional
 public interface ComicChapterRepository extends JpaRepository<ComicChapterEntity, Integer>{
-	List<ComicChapterEntity> findByTitleContains(String title);
+	@Query("SELECT c FROM ComicChapterEntity c WHERE c.comic.id = ?1")
+	List<ComicChapterEntity> findByComicId(Integer comicId);
+	
 	Optional<ComicChapterEntity> findByTitle(String title);
 	
 	@Modifying

@@ -10,58 +10,64 @@ import org.springframework.stereotype.Service;
 import com.comic.serviceapi.dto.ComicChapterDto;
 import com.comic.serviceapi.entity.ComicChapterEntity;
 import com.comic.serviceapi.repository.ComicChapterRepository;
+import com.comic.serviceapi.repository.ComicRepository;
 
 @Service
 public class ComicChapterServiceImpl implements ComicChapterService{
 
 	@Autowired
-	private ComicChapterRepository comicRepo;
+	private ComicChapterRepository comicChapterRepo;
 	
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private ComicRepository comicRepo;
+	
 	@Override
 	public void store(ComicChapterDto comicChapterDto) {
-		ComicChapterEntity comicEntity = toComicChapterEntity(comicChapterDto);
-		comicRepo.save(comicEntity);
+		ComicChapterEntity comicChapterEntity = toComicChapterEntity(comicChapterDto);
+		comicChapterEntity.setComic(comicRepo.findById(comicChapterDto.getComicId()).get());;
+		comicChapterRepo.save(comicChapterEntity);
 	}
 
 	@Override
 	public void delete(ComicChapterDto comicChapterDto) {
-		ComicChapterEntity comicEntity = toComicChapterEntity(comicChapterDto);
-		comicRepo.delete(comicEntity);
+		ComicChapterEntity comicChapterEntity = toComicChapterEntity(comicChapterDto);
+		comicChapterRepo.delete(comicChapterEntity);
 	}
 
 	@Override
 	public void upload(Integer id, String content) {
-		comicRepo.upload(id, content);
+		comicChapterRepo.upload(id, content);
 	}
 	
 	@Override
 	public Optional<ComicChapterDto> findById(Integer id) {
-		return comicRepo.findById(id).map(e -> toComicChapterDto(e));
+		return comicChapterRepo.findById(id).map(e -> toComicChapterDto(e));
 	}
 
 	@Override
 	public List<ComicChapterDto> findAll() {
-		return comicRepo.findAll().stream().map(e -> toComicChapterDto(e)).toList();
+		return comicChapterRepo.findAll().stream().map(e -> toComicChapterDto(e)).toList();
 	}
-
+	
 	@Override
-	public List<ComicChapterDto> findByTitleContains(String title) {
-		return comicRepo.findByTitleContains(title).stream().map(e -> toComicChapterDto(e)).toList();
+	public List<ComicChapterDto> findByComicId(Integer comicId) {
+		return comicChapterRepo.findByComicId(comicId).stream().map(e -> toComicChapterDto(e)).toList();
 	}
 	
 	@Override
 	public Optional<ComicChapterDto> findByTitle(String title) {
-		return comicRepo.findByTitle(title).map(e -> toComicChapterDto(e));
+		return comicChapterRepo.findByTitle(title).map(e -> toComicChapterDto(e));
 	}
 
 	private ComicChapterEntity toComicChapterEntity(ComicChapterDto comicChapterDto) {
 		return modelMapper.map(comicChapterDto, ComicChapterEntity.class);
 	}
 	
-	private ComicChapterDto toComicChapterDto(ComicChapterEntity comicEntity) {
-		return modelMapper.map(comicEntity, ComicChapterDto.class);
+	private ComicChapterDto toComicChapterDto(ComicChapterEntity comicChapterEntity) {
+		return modelMapper.map(comicChapterEntity, ComicChapterDto.class);
 	}
+
 }

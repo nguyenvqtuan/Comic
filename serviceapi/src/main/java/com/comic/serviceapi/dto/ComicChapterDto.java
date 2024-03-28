@@ -17,4 +17,5 @@ public class ComicChapterDto {
 	private int numOrder;
 	private String title;
 	private String content;
+	private int comicId;
 }
