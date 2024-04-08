@@ -7,7 +7,7 @@ const Slidebar = () => {
             <div className="row">
             <div className="col-md-12">
                 <div className="block">
-                <h1>Index comic</h1>
+                <h1>Comic page</h1>
                 </div>
             </div>
             </div>
