@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Carousel = () => {
+
   return (
     <section className="testimonial">
     <div className="container">

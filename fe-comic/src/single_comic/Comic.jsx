@@ -2,7 +2,7 @@ import React from 'react'
 import ComicContent from './ComicContent'
 import OtherComic from './OtherComic'
 
-const SingleComic = () => {
+const Comic = () => {
   return (
     <section className="page-wrapper">
         <div className="container">
@@ -15,4 +15,4 @@ const SingleComic = () => {
   )
 }
 
-export default SingleComic
+export default Comic
