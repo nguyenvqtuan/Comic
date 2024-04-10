@@ -26,6 +26,7 @@ public class ComicChapterServiceImpl implements ComicChapterService{
 	
 	@Override
 	public void store(ComicChapterDto comicChapterDto) {
+		comicChapterDto.setNumOrder((int) comicRepo.count() + 1);
 		ComicChapterEntity comicChapterEntity = toComicChapterEntity(comicChapterDto);
 		comicChapterEntity.setComic(comicRepo.findById(comicChapterDto.getComicId()).get());;
 		comicChapterRepo.save(comicChapterEntity);
