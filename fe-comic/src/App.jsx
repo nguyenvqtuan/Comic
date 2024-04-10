@@ -22,7 +22,6 @@ const App = () => {
           <Route path="/comic/chapter/:id" element={<ComicChapter/>} />
         </Routes>   
       </BrowserRouter>
-   
       <Footer />
       <ScrollTop />
     </div>
