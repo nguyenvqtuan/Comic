@@ -36,6 +36,21 @@ public class ComicController {
 		return ResponseEntity.status(HttpStatus.OK).body(ComicDtos);
 	}
 	
+	/**
+	 * 
+	 * @param type (popular, view, like, comment)
+	 * @param category
+	 * @param size
+	 * @return
+	 */
+	@GetMapping("/search")
+	public ResponseEntity<List<ComicDto>> searchRating(@RequestParam(value="type", defaultValue="") String type,
+			@RequestParam(value="category", defaultValue="") String category,
+			@RequestParam(value="size", defaultValue="20") Integer size) {
+		List<ComicDto> res = comicService.searchRating(type, category, size);
+		return ResponseEntity.status(HttpStatus.OK).body(res);
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<ComicDto>> findById(@PathVariable Integer id) {
 		Optional<ComicDto> comicDto = comicService.findById(id);

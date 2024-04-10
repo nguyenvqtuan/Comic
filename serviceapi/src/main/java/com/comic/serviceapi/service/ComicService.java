@@ -15,4 +15,6 @@ public interface ComicService {
 	public List<ComicDto> findAll();
 	public List<ComicDto> findByTitleContains(String title);
 	public Optional<ComicDto> findByTitle(String title);
+	
+	public List<ComicDto> searchRating(String type, String category, Integer size);
 }

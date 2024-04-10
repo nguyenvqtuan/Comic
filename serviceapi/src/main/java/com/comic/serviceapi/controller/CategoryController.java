@@ -35,7 +35,7 @@ public class CategoryController {
 		List<CategoryDto> categoryDtos = categoryService.findByNameContains(name);
 		return ResponseEntity.status(HttpStatus.OK).body(categoryDtos);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<CategoryDto>> findById(@PathVariable Integer id) {
 		Optional<CategoryDto> categoryDto = categoryService.findById(id);

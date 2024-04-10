@@ -1,5 +1,6 @@
 package com.comic.serviceapi.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +57,47 @@ public class ComicServiceImpl implements ComicService{
 	public Optional<ComicDto> findByTitle(String title) {
 		return comicRepo.findByTitle(title).map(e -> toComicDto(e));
 	}
-
+	
+	@Override
+	public List<ComicDto> searchRating(String type, String category, Integer size) {
+		List<ComicDto> res = new ArrayList<>();
+		switch(type) {
+		case "popular":
+			searchByPopular(category, size);
+			break;
+		case "view":
+			searchByView(category, size);
+			break;
+		case "like":
+			searchByLike(category, size);
+			break;
+		case "comment":
+			searchByComment(category, size);
+			break;
+		default:
+		}
+		return res;
+	}
+	
+	private List<ComicDto> searchByPopular(String category, Integer size) {
+		List<ComicEntity> res = comicRepo.searchByPopular(category, size);
+		return res.stream().map(e -> toComicDto(e)).toList();
+	}
+	
+	private List<ComicDto> searchByView(String category, Integer size) {
+		List<ComicEntity> res = comicRepo.searchByView(category, size);
+		return res.stream().map(e -> toComicDto(e)).toList();
+	}
+	
+	private List<ComicDto> searchByLike(String category, Integer size) {
+		// TODO
+		return new ArrayList<>();
+	}
+	private List<ComicDto> searchByComment(String category, Integer size) {
+		// TODo
+		return new ArrayList<>();
+	}
+	
 	private ComicEntity toComicEntity(ComicDto comicDto) {
 		return modelMapper.map(comicDto, ComicEntity.class);
 	}
