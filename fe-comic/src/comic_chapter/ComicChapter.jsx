@@ -8,8 +8,8 @@ const ComicChapter = () => {
     <section className="page-wrapper">
 	<div className="container">
 		<div className="row">
-        <div class="col-md-12">
-				<div class="post post-single">
+        <div className="col-md-12">
+				<div className="post post-single">
             <ChapterContent />
             <ChapterComment />
             <CommentForm />
