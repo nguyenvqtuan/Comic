@@ -1,6 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import ApiClient from '../assets/js/ApiClient'
 
 const Rating = () => {
+  useEffect(() => {
+    ApiClient.get("/canvas/home?language=en").then((r) => console.log(r));
+  }, [])
+
   return (
     <section className="service">
     <div className="container">
