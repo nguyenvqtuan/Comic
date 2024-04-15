@@ -1,5 +1,5 @@
 <form xmlns:th="http://www.thymeleaf.org" id="form-update" data-parsley-validate
-	class="form-horizontal form-label-left" th:action="@{/comic/{id}(id=${comic.id})}" th:method="PUT" th:object="${comic}" enctype="multipart/form-data">
+	class="form-horizontal form-label-left" th:action="@{/comic/{id}(id=${comic.id})}" th:method="POST" th:object="${comic}" enctype="multipart/form-data">
 	<div class="item form-group">
 		<label class="col-form-label col-md-3 col-sm-3 label-align"
 			for="title">Title<span class="required">*</span>
@@ -32,6 +32,14 @@
 		<div class="col-md-9 col-sm-9 ">
 			<select th:field="*{status}" class="form-control">
 				<option th:each="data,iter : ${statuses}" th:value="${iter.index}" th:text="${data}" th:selected="${iter.index == status}"></option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group item">
+		<label class="col-form-label col-md-3 col-sm-3 label-align">Category</label>
+		<div class="col-md-9 col-sm-9  ">
+			<select class="form-control" id="categoryId" name="categoryId">
+				<option th:each="data : ${categories}" th:value="${data.id}" th:text="${data.name}" th:selected="${data.id == comic.categoryId}"></option>
 			</select>
 		</div>
 	</div>

@@ -70,7 +70,7 @@ public class ComicController {
 		return ResponseEntity.status(HttpStatus.CREATED).body("Create comic success!");
 	}
 	
-	@PostMapping("/{id}")
+	@PutMapping("/{id}/changeStatus")
 	public ResponseEntity<String> changeStatus(@PathVariable Integer id,
 			@RequestParam(name="status", required=true) Byte status) {
 		Optional<ComicDto> comicDto = comicService.findById(id);
@@ -82,7 +82,7 @@ public class ComicController {
 		return ResponseEntity.status(HttpStatus.OK).body("Change status success!");
 	}
 	
-	@PutMapping("/{id}")
+	@PostMapping("/{id}")
 	public ResponseEntity<String> update(@PathVariable Integer id,
 			@RequestBody ComicDto ComicDto) {
 		Optional<ComicDto> comicByTitle = comicService.findByTitle(ComicDto.getTitle());

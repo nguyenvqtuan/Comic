@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.comic.manage.dto.ComicDto;
@@ -26,7 +25,7 @@ public interface ComicClient {
 	@PostMapping("")
 	public ResponseEntity<String> add(@RequestBody ComicDto comicDto);
 	
-	@PutMapping("/{id}")
+	@PostMapping("/{id}")
 	public ResponseEntity<String> update(@PathVariable Integer id, @RequestBody ComicDto categoryDto);
 	
 	@DeleteMapping("/{id}")

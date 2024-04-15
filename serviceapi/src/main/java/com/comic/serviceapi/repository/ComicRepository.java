@@ -22,9 +22,9 @@ public interface ComicRepository extends JpaRepository<ComicEntity, Integer>{
 	@Query("UPDATE ComicEntity SET status = ?2 WHERE id = ?1")
 	void changeStatus(Integer id, Byte status);
 	
-	@Query(nativeQuery=true, value="SELECT c FROM comics c  WHERE category LIKE %?1% ORDER BY view, follow DESC LIMIT ?2")
+	@Query(value="SELECT c FROM ComicEntity c WHERE category.name LIKE %?1% ORDER BY view, follow DESC LIMIT ?2")
 	List<ComicEntity> searchByPopular(String category, Integer size);
 	
-	@Query(nativeQuery=true, value="SELECT c FROM comics c WHERE category LIKE %?1% ORDER BY view DESC LIMIT ?2")
+	@Query(nativeQuery=true, value="SELECT c.* FROM comics c WHERE c.category LIKE %?1% ORDER BY c.view DESC LIMIT ?2")
 	List<ComicEntity> searchByView(String category, Integer size);
 }

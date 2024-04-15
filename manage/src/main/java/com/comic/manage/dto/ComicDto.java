@@ -21,4 +21,6 @@ public class ComicDto {
 	private String description;
 	private byte status;
 	private long follow;
+	
+	private int categoryId;
 }

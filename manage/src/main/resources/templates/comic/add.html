@@ -36,6 +36,14 @@
 			</select>
 		</div>
 	</div>
+	<div class="form-group item">
+		<label class="col-form-label col-md-3 col-sm-3 label-align">Category</label>
+		<div class="col-md-9 col-sm-9  ">
+			<select class="form-control" id="status" name="status">
+				<option th:each="data : ${categories}" th:value="${data.id}" th:text="${data.name}"></option>
+			</select>
+		</div>
+	</div>
 	<div class="ln_solid"></div>
 	<div class="item form-group">
 		<div class="col-md-6 col-sm-6 offset-md-3">

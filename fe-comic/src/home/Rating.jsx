@@ -1,7 +1,19 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import ApiClient from '../assets/js/ApiClient'
 
-const Rating = ({rating}) => {
 
+const Rating = () => {
+  const [rating, setRatings] = useState()
+  useEffect(() => {
+    fetchRating();
+  }, [])
+  
+  const fetchRating = async () => {
+    const response = await ApiClient.get("/comic/search?type=popular").then((r) => r.data);
+    console.log(response)
+    setRatings(response)
+  }
+ 
   return (
     <section className="service">
     <div className="container">

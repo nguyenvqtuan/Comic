@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.comic.serviceapi.dto.ComicDto;
 import com.comic.serviceapi.entity.ComicEntity;
+import com.comic.serviceapi.repository.CategoryRepository;
 import com.comic.serviceapi.repository.ComicRepository;
 
 @Service
@@ -19,11 +20,15 @@ public class ComicServiceImpl implements ComicService{
 	private ComicRepository comicRepo;
 	
 	@Autowired
+	private CategoryRepository categoryRepo;
+	
+	@Autowired
 	private ModelMapper modelMapper;
 	
 	@Override
 	public void store(ComicDto comicDto) {
 		ComicEntity comicEntity = toComicEntity(comicDto);
+		comicEntity.setCategory(categoryRepo.findById(comicDto.getCategoryId()).get());
 		comicRepo.save(comicEntity);
 	}
 
@@ -63,16 +68,16 @@ public class ComicServiceImpl implements ComicService{
 		List<ComicDto> res = new ArrayList<>();
 		switch(type) {
 		case "popular":
-			searchByPopular(category, size);
+			res = searchByPopular(category, size);
 			break;
 		case "view":
-			searchByView(category, size);
+			res = searchByView(category, size);
 			break;
 		case "like":
-			searchByLike(category, size);
+			res = searchByLike(category, size);
 			break;
 		case "comment":
-			searchByComment(category, size);
+			res = searchByComment(category, size);
 			break;
 		default:
 		}

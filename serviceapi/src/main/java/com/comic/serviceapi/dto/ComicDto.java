@@ -13,7 +13,7 @@ import lombok.Setter;
 @Builder
 public class ComicDto {
 
-private int id;
+	private int id;
 	
 	private String title;
 	private String image;
@@ -21,4 +21,5 @@ private int id;
 	private String description;
 	private byte status;
 	private long follow;
+	private int categoryId;
 }

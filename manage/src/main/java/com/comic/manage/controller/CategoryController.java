@@ -62,7 +62,7 @@ public class CategoryController {
 		return categoryClient.add(categoryDto);
 	}
 	
-	@PutMapping(value="/{id}")
+	@PostMapping(value="/{id}")
 	@ResponseBody
 	public ResponseEntity<?> update(@PathVariable Integer id, 
 			@RequestBody CategoryDto categoryDto) {

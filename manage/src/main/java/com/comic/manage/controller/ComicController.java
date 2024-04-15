@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.comic.manage.dto.ComicDto;
+import com.comic.manage.feignclient.CategoryClient;
 import com.comic.manage.feignclient.ComicClient;
 import com.comic.manage.service.GoogleDriveService;
 
@@ -29,6 +29,9 @@ public class ComicController {
 
 	@Autowired
 	private GoogleDriveService googleDriveService;
+	
+	@Autowired
+	private CategoryClient categoryClient;
 	
 	enum Status {
 		NO_ACTION("No action"), IN_PROGRESS("In progress"),
@@ -54,6 +57,7 @@ public class ComicController {
 		model.addAttribute("comic", new ComicDto());
 		model.addAttribute("comics", comicClient.findAll().getBody());
 		model.addAttribute("statuses", getListStatus());
+		model.addAttribute("categories", categoryClient.findAll(""));
 		return "/comic/add.html";
 	}
 	
@@ -68,6 +72,7 @@ public class ComicController {
 		model.addAttribute("comic", comic.get());
 		model.addAttribute("comics", comicClient.findAll().getBody());
 		model.addAttribute("statuses", getListStatus());
+		model.addAttribute("categories", categoryClient.findAll("").getBody());
 		return "/comic/edit.html";
 	}
 	
@@ -81,7 +86,7 @@ public class ComicController {
 		return "redirect:/comic";
 	}
 	
-	@PutMapping(value="/{id}")
+	@PostMapping(value="/{id}")
 	public String update(@PathVariable Integer id, 
 			@ModelAttribute ComicDto comicDto, 
 			@RequestParam("file") MultipartFile file, RedirectAttributes redir) {
