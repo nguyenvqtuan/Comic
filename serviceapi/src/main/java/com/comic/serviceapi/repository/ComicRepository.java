@@ -14,6 +14,7 @@ import com.comic.serviceapi.entity.ComicEntity;
 @Repository
 @Transactional
 public interface ComicRepository extends JpaRepository<ComicEntity, Integer>{
+	
 	List<ComicEntity> findByTitleContains(String title);
 	Optional<ComicEntity> findByTitle(String title);
 	
