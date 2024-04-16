@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import ApiClient from "../assets/js/ApiClient";
 
 const Lastest = ({ lastest }) => {
@@ -39,9 +39,9 @@ const Lastest = ({ lastest }) => {
 								</a>
 								<div className="media-body">
 									<h4 className="media-heading">
-										<Link to={{ pathname: `/comic/${item.id}` }}>
+										<NavLink to={{ pathname: `/comic/${item.id}` }}>
 											{item.title}
-										</Link>
+										</NavLink>
 									</h4>
 									<p>{item.description.substring(0, 30)}</p>
 								</div>

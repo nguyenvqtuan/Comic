@@ -1,104 +1,89 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import ApiClient from "../assets/js/ApiClient";
+import { useParams } from "react-router-dom";
+import { ComicInformation } from "./ComicInformation";
+import "../assets/css/comic/page-content.css";
 
 const ComicContent = () => {
-  return (
-    <section className="portfolio-single-page section-sm">
-    <div className="container">
-      <div className="row align-items-center">
-        <div className="col-xl-8 col-lg-7">
-          <div className="portfolio-single-slider">
-            <div>
-              <img
-                className="img-fluid"
-                src="images/portfolio/portfolio-big-1.jpg"
-              />
-            </div>
-            <div>
-              <img
-                className="img-fluid"
-                src="images/portfolio/portfolio-big-2.jpg"
-              />
-            </div>
-            <div>
-              <img
-                className="img-fluid"
-                src="images/portfolio/portfolio-big-3.jpg"
-              />
-            </div>
-            <div>
-              <img
-                className="img-fluid"
-                src="images/portfolio/portfolio-big-4.jpg"
-              />
-            </div>
-            <div>
-              <img
-                className="img-fluid"
-                src="images/portfolio/portfolio-big-5.jpg"
-              />
-            </div>
-            <div>
-              <img
-                className="img-fluid"
-                src="images/portfolio/portfolio-big-6.jpg"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="col-xl-4 col-lg-5 mt-5 mt-lg-0">
-          <div className="project-details">
-            <h4>Project Details</h4>
-            <ul>
-              <li>
-                <span><i className="fa fa-shirtsinbulk"></i> Client</span
-                ><strong>Jannie Kelonsky</strong>
-              </li>
-              <li>
-                <span><i className="fa fa-shield"></i> What We Did</span
-                ><strong>Website Redesign</strong>
-              </li>
-              <li>
-                <span><i className="fa fa-ils"></i> Tools Used</span
-                ><strong>Photoshop,Illustrator</strong>
-              </li>
-              <li>
-                <span><i className="icon-calendar3"></i>Completed on:</span> 17th
-                March 2020
-              </li>
-              <li>
-                <span><i className="icon-lightbulb"></i>Skills:</span> HTML5 / PHP
-                / CSS3
-              </li>
-              <li>
-                <span><i className="icon-link"></i>Client:</span>
-                <a href="index.html">Google</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-12">
-          <div className="project-content mt-50">
-              <p>
-                  <a className="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                    Link with href
-                  </a>
-                  <button className="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    Button with data-target
-                  </button>
-                </p>
-                <div className="collapse" id="collapseExample">
-                  <div className="card card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                  </div>
-                </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  )
-}
+	const { id } = useParams();
+	const [comic, setComic] = useState();
+	useEffect(() => {
+		fetchComicById();
+	}, []);
 
-export default ComicContent
+	const fetchComicById = async () => {
+		const response = await ApiClient.get(`/comic/${id}`).then((r) => r.data);
+		setComic(response);
+	};
+
+	return (
+		<section className="portfolio-single-page section-sm">
+			<div className="container">
+				<div className="row align-items-center">
+					<div className="col-xl-5 col-lg-6" id="left-image">
+						<img
+							className="img-fluid"
+							src={
+								"https://drive.google.com/thumbnail?id=" +
+								comic?.image +
+								"&sz=w150"
+							}
+						/>
+					</div>
+					<div className="col-xl-4 col-lg-5 mt-5 mt-lg-0">
+						<ComicInformation comic={comic} />
+					</div>
+					<div className="col-xl-3 col-lg-2 mt-5 mt-lg-0"></div>
+				</div>
+				<div className="row">
+					<div className="col-md-12">
+						<div className="project-content mt-50">
+							<div id="collapse-comic">
+								<p>
+									<a
+										className="btn btn-primary"
+										data-toggle="collapse"
+										href="#chapters"
+										role="button"
+										aria-expanded="false"
+										aria-controls="chapters">
+										Chapters
+									</a>
+									<button
+										className="ml-2 btn btn-primary"
+										type="button"
+										data-toggle="collapse"
+										data-target="#comments"
+										aria-expanded="false"
+										aria-controls="comments">
+										Comments
+									</button>
+								</p>
+								<div className="row">
+									<div className="col">
+										<div
+											className="collapse multi-collapse"
+											id="chapters"
+											data-bs-parent="#collapse-comic">
+											<div className="card card-body">
+												{/* <Chapters comicId={id} /> */}
+											</div>
+										</div>
+										<div
+											className="collapse multi-collapse"
+											id="comments"
+											data-bs-parent="#collapse-comic">
+											<div className="card card-body">Comments</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	);
+};
+
+export default ComicContent;

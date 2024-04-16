@@ -1,98 +1,58 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import ApiClient from "../assets/js/ApiClient";
 
 const OtherComic = () => {
-  return (
-    <section className="related-projects section-sm bg-gray">
-    <div className="container">
-      <div className="row">
-        <div className="col-12">
-          <div className="text-center">
-            <h2>Related Other Projects</h2>
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-3 mt-5">
-          <div className="content">
-            <img
-              className="img-fluid"
-              src="images/portfolio/portfolio-big-2.jpg"
-            />
-            <div className="content mt-4">
-              <h4>Dribbble Redesign</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptas recusandae, dignissimos culpa quam debitis quibusdam
-                magni rem quis, cum nesciunt?
-              </p>
-              <a href="portfolio-single.html" className="btn btn-small"
-                >View Case Study</a
-              >
-            </div>
-          </div>
-        </div>
-        <div className="col-md-3 mt-5">
-          <div className="content">
-            <img
-              className="img-fluid"
-              src="images/portfolio/portfolio-big-3.jpg"
-            />
-            <div className="content mt-4">
-              <h4>Dribbble Redesign</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptas recusandae, dignissimos culpa quam debitis quibusdam
-                magni rem quis, cum nesciunt?
-              </p>
-              <a href="portfolio-single.html" className="btn btn-small"
-                >View Case Study</a
-              >
-            </div>
-          </div>
-        </div>
-        <div className="col-md-3 mt-5">
-          <div className="content">
-            <img
-              className="img-fluid"
-              src="images/portfolio/portfolio-big-2.jpg"
-            />
-            <div className="content mt-4">
-              <h4>Dribbble Redesign</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptas recusandae, dignissimos culpa quam debitis quibusdam
-                magni rem quis, cum nesciunt?
-              </p>
-              <a href="portfolio-single.html" className="btn btn-small"
-                >View Case Study</a
-              >
-            </div>
-          </div>
-        </div>
-        <div className="col-md-3 mt-5">
-          <div className="content">
-            <img
-              className="img-fluid"
-              src="images/portfolio/portfolio-big-3.jpg"
-            />
-            <div className="content mt-4">
-              <h4>Dribbble Redesign</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptas recusandae, dignissimos culpa quam debitis quibusdam
-                magni rem quis, cum nesciunt?
-              </p>
-              <a href="portfolio-single.html" className="btn btn-small"
-                >View Case Study</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+	const [related, setRelated] = useState();
+	useEffect(() => {
+		fetchRelatedComic();
+	}, []);
 
-  )
-}
+	const fetchRelatedComic = async () => {
+		const response = await ApiClient.get(
+			"/comic/search?type=related&category=1&size=4"
+		).then((r) => r.data);
+		setRelated(response);
+	};
 
-export default OtherComic
+	return (
+		<section className="related-projects section-sm bg-gray">
+			<div className="container">
+				<div className="row">
+					<div className="col-12">
+						<div className="text-center">
+							<h2>Related Other Projects</h2>
+						</div>
+					</div>
+				</div>
+				<div className="row">
+					{related?.map((item) => (
+						<div className="col-md-3 mt-5" key={item.id}>
+							<div className="content">
+								<img
+									className="img-fluid"
+									src={
+										"https://drive.google.com/thumbnail?id=" +
+										item.image +
+										"&sz=w150"
+									}
+								/>
+								<div className="content mt-4">
+									<h4>{item.title}</h4>
+									<p>{item.description}</p>
+									<Link
+										to={{ pathname: `/comic/${item.id}` }}
+										className="btn btn-small">
+										{item.title}
+									</Link>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+	);
+};
+
+export default OtherComic;
