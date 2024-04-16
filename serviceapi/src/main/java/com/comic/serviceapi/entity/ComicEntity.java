@@ -1,7 +1,6 @@
 package com.comic.serviceapi.entity;
 
 import java.util.List;
-import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -52,7 +51,7 @@ public class ComicEntity {
 	private CategoryEntity category;
 	
 	@OneToMany(mappedBy="comic")
-	private Set<ComicChapterEntity> comicChapters;
+	private List<ComicChapterEntity> comicChapters;
 	
 	@OneToMany(mappedBy="comic")
 	private List<ComicCommentEntity> comicComments;

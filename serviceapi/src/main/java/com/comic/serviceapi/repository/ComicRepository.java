@@ -27,4 +27,7 @@ public interface ComicRepository extends JpaRepository<ComicEntity, Integer>{
 	
 	@Query(value="SELECT c FROM ComicEntity c WHERE category.name LIKE %?1% ORDER BY view DESC LIMIT ?2")
 	List<ComicEntity> searchByView(String category, Integer size);
+	
+	@Query(value="SELECT c FROM ComicEntity c WHERE category.id IN (?1) ORDER BY id DESC LIMIT ?2")
+	List<ComicEntity> searchRelated(String category, Integer size);
 }

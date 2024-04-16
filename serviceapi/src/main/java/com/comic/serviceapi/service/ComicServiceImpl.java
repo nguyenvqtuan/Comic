@@ -80,6 +80,9 @@ public class ComicServiceImpl implements ComicService{
 		case "comment":
 			res = searchByComment(category, size);
 			break;
+		case "related":
+			res = searchRelated(category, size);
+			break;
 		default:
 		}
 		return res;
@@ -99,9 +102,15 @@ public class ComicServiceImpl implements ComicService{
 		// TODO
 		return new ArrayList<>();
 	}
+	
 	private List<ComicDto> searchByComment(String category, Integer size) {
 		// TODO
 		return new ArrayList<>();
+	}
+	
+	private List<ComicDto> searchRelated(String category, Integer size) {
+		List<ComicEntity> res = comicRepo.searchRelated(category, size);
+		return res.stream().map(e -> toComicDto(e)).toList();
 	}
 	
 	private ComicEntity toComicEntity(ComicDto comicDto) {
@@ -109,12 +118,18 @@ public class ComicServiceImpl implements ComicService{
 	}
 	
 	private ComicDto toComicDto(ComicEntity e) {
-		return modelMapper.typeMap(ComicEntity.class, ComicDto.class)
-				.addMappings(mapper -> {
-					mapper.map(src -> src.getCategory().getId(), ComicDto::setCategoryId);
-					mapper.map(src -> src.getCategory().getName(), ComicDto::setCategoryName);
-					mapper.using(new ComicStatusToEnumConverter()).map(ComicEntity::getStatus, ComicDto::setStatusStr);
-				})
-				.map(e);
+		ComicDto res = modelMapper.typeMap(ComicEntity.class, ComicDto.class)
+			.addMappings(mapper -> {
+				mapper.map(src -> src.getCategory().getId(), ComicDto::setCategoryId);
+				mapper.map(src -> src.getCategory().getName(), ComicDto::setCategoryName);
+				mapper.using(new ComicStatusToEnumConverter()).map(ComicEntity::getStatus, ComicDto::setStatusStr);
+			})
+			.map(e);
+		addOtherInformation(res, e);
+		return res;
+	}
+	
+	private void addOtherInformation(ComicDto comicDto, ComicEntity comicEntity) {
+		comicDto.setCountChapter(comicEntity.getComicChapters().size());
 	}
 }
