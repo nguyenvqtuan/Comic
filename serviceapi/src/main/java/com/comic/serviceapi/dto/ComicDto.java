@@ -20,6 +20,11 @@ public class ComicDto {
 	private long view;
 	private String description;
 	private byte status;
+	private String statusStr;
 	private long follow;
+	
 	private int categoryId;
+	private String categoryName;
+	
+	private int countChapter;
 }

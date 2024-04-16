@@ -12,6 +12,7 @@ import com.comic.serviceapi.dto.ComicDto;
 import com.comic.serviceapi.entity.ComicEntity;
 import com.comic.serviceapi.repository.CategoryRepository;
 import com.comic.serviceapi.repository.ComicRepository;
+import com.comic.serviceapi.util.converter.ComicStatusToEnumConverter;
 
 @Service
 public class ComicServiceImpl implements ComicService{
@@ -99,7 +100,7 @@ public class ComicServiceImpl implements ComicService{
 		return new ArrayList<>();
 	}
 	private List<ComicDto> searchByComment(String category, Integer size) {
-		// TODo
+		// TODO
 		return new ArrayList<>();
 	}
 	
@@ -108,7 +109,12 @@ public class ComicServiceImpl implements ComicService{
 	}
 	
 	private ComicDto toComicDto(ComicEntity e) {
-		return modelMapper.map(e, ComicDto.class);
+		return modelMapper.typeMap(ComicEntity.class, ComicDto.class)
+				.addMappings(mapper -> {
+					mapper.map(src -> src.getCategory().getId(), ComicDto::setCategoryId);
+					mapper.map(src -> src.getCategory().getName(), ComicDto::setCategoryName);
+					mapper.using(new ComicStatusToEnumConverter()).map(ComicEntity::getStatus, ComicDto::setStatusStr);
+				})
+				.map(e);
 	}
-
 }
