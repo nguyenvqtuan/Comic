@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import ApiClient from "../assets/js/ApiClient";
 import { useParams } from "react-router-dom";
 import { ComicInformation } from "./ComicInformation";
+import ComicComment from "./ComicComment";
+import ComicChapter from "./ComicChapter";
+import Introduce from "./Introduce";
 import "../assets/css/comic/page-content.css";
 
 const ComicContent = () => {
@@ -40,15 +43,24 @@ const ComicContent = () => {
 						<div className="project-content mt-50">
 							<div id="collapse-comic">
 								<p>
-									<a
-										className="btn btn-primary"
+									<button
+										className="ml-2 btn btn-primary"
+										type="button"
 										data-toggle="collapse"
-										href="#chapters"
-										role="button"
+										data-target="#introduce"
+										aria-expanded="false"
+										aria-controls="introduce">
+										Introduce
+									</button>
+									<button
+										className="ml-2 btn btn-primary"
+										data-toggle="collapse"
+										data-target="#chapters"
+										type="button"
 										aria-expanded="false"
 										aria-controls="chapters">
 										Chapters
-									</a>
+									</button>
 									<button
 										className="ml-2 btn btn-primary"
 										type="button"
@@ -63,17 +75,23 @@ const ComicContent = () => {
 									<div className="col">
 										<div
 											className="collapse multi-collapse"
+											id="introduce"
+											data-bs-parent="#collapse-comic">
+											<Introduce comic={comic} />
+										</div>
+										<div
+											className="collapse multi-collapse"
 											id="chapters"
 											data-bs-parent="#collapse-comic">
 											<div className="card card-body">
-												{/* <Chapters comicId={id} /> */}
+												<ComicChapter comicId={id} />
 											</div>
 										</div>
 										<div
 											className="collapse multi-collapse"
 											id="comments"
 											data-bs-parent="#collapse-comic">
-											<div className="card card-body">Comments</div>
+											<ComicComment comicId={id} />
 										</div>
 									</div>
 								</div>
