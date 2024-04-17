@@ -3,7 +3,6 @@ import React from "react";
 export const ComicInformation = ({ comic }) => {
 	return (
 		<div className="project-details">
-			{console.log(comic)}
 			<h4>{comic?.title}</h4>
 			<ul>
 				<li>

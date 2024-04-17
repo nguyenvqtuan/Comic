@@ -109,7 +109,7 @@ const Nvarbar = () => {
 														className="dropdown-item @@popularity"
 														to={{
 															pathname: `/comic/search`,
-															search: `?type=popular&category=${item.id}`,
+															search: `?type=popular&category=${item.name}`,
 														}}>
 														{item.name}
 													</Link>

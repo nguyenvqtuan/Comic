@@ -13,7 +13,6 @@ const ComicChapter = ({ comicId }) => {
 		const response = await ApiClient.get(`/comic/${comicId}/chapter`).then(
 			(r) => r.data
 		);
-		console.log(response);
 		setChapter(response);
 	};
 
