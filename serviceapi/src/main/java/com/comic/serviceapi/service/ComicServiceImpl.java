@@ -83,6 +83,9 @@ public class ComicServiceImpl implements ComicService{
 		case "related":
 			res = searchRelated(category, size);
 			break;
+		case "newest":
+			res = searchNewest(category, size);
+			break;
 		default:
 		}
 		return res;
@@ -95,6 +98,11 @@ public class ComicServiceImpl implements ComicService{
 	
 	private List<ComicDto> searchByView(String category, Integer size) {
 		List<ComicEntity> res = comicRepo.searchByView(category, size);
+		return res.stream().map(e -> toComicDto(e)).toList();
+	}
+	
+	private List<ComicDto> searchNewest(String category, Integer size) {
+		List<ComicEntity> res = comicRepo.searchNewest(category, size);
 		return res.stream().map(e -> toComicDto(e)).toList();
 	}
 	
