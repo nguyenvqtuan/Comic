@@ -1,5 +1,10 @@
 package com.comic.serviceapi.entity;
 
+import java.time.LocalDate;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,4 +46,10 @@ public class ComicCommentEntity {
 
 	@Column(columnDefinition = " INT(11) NOT NULL COMMENT '0 for no reply, other for reply specific'")
 	private int reply;
+	
+	@CreatedDate
+	private LocalDate createdAt;
+	
+	@LastModifiedDate
+	private LocalDate updatedAt;
 }

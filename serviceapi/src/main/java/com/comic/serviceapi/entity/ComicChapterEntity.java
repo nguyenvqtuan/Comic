@@ -1,5 +1,10 @@
 package com.comic.serviceapi.entity;
 
+import java.time.LocalDate;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,4 +43,10 @@ public class ComicChapterEntity {
 	@ManyToOne
 	@JoinColumn(name = "id_comic")
 	private ComicEntity comic;
+	
+	@CreatedDate
+	private LocalDate createdAt;
+	
+	@LastModifiedDate
+	private LocalDate updatedAt;
 }

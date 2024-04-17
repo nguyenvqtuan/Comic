@@ -1,6 +1,10 @@
 package com.comic.serviceapi.entity;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,6 +49,12 @@ public class ComicEntity {
 	
 	@Column
 	private long follow;
+	
+	@CreatedDate
+	private LocalDate createdAt;
+	
+	@LastModifiedDate
+	private LocalDate updatedAt;
 	
 	@ManyToOne
 	@JoinColumn(name="id_category")

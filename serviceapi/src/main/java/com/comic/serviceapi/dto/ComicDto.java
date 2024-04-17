@@ -1,5 +1,7 @@
 package com.comic.serviceapi.dto;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +27,9 @@ public class ComicDto {
 	
 	private int categoryId;
 	private String categoryName;
+	
+	private LocalDate createdAt;
+	private LocalDate updatedAt;
 	
 	private int countChapter;
 }
