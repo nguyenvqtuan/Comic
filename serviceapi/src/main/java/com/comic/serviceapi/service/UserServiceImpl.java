@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.comic.serviceapi.dto.UserDto;
@@ -13,8 +14,13 @@ import com.comic.serviceapi.repository.UserRepository;
 @Service
 public class UserServiceImpl implements UserService{
 
+	private static final String ROLE_USER = "USER";
+	
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private ModelMapper model;
@@ -23,11 +29,23 @@ public class UserServiceImpl implements UserService{
 		return userRepo.findByUserName(userName).map(e -> toUserDto(e));
 	}
 	
+	@Override
+	public void store(UserDto userDto) {
+		UserEntity userEntity = toUserEntity(userDto);
+		userRepo.save(userEntity);
+	}
+	
 	private UserDto toUserDto(UserEntity userEntity) {
 		return model.map(userEntity, UserDto.class);
 	}
 	
 	private UserEntity toUserEntity(UserDto userDto) {
-		return model.map(userDto, UserEntity.class);
+		return model.typeMap(UserDto.class, UserEntity.class)
+				.addMappings(mapper -> {
+					mapper.map(src -> passwordEncoder.encode(src.getPassword()), UserEntity::setPassword);
+					mapper.map(src -> ROLE_USER, UserEntity::setRole);
+					mapper.map(src-> 1, UserEntity::setEnable);
+				})
+				.map(userDto);
 	}
 }

@@ -1,10 +1,10 @@
 package com.comic.serviceapi.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,18 +34,17 @@ public class UserEntity {
 	@Column
 	private String password;
 	
-	@Column(updatable = false)
-	@CreationTimestamp
-	private LocalDateTime createdAt;
-	
-	@UpdateTimestamp
-	private LocalDateTime updatedAt;
-	
 	@Column
 	private boolean enable;
 
 	@Column
 	private String role;
+	
+	@CreatedDate
+	private LocalDate createdAt;
+	
+	@LastModifiedDate
+	private LocalDate updatedAt;
 	
 	@OneToMany(mappedBy="user")
 	private List<ComicCommentEntity> comicComments;

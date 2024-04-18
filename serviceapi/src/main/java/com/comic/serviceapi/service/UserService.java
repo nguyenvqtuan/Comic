@@ -7,4 +7,5 @@ import com.comic.serviceapi.dto.UserDto;
 public interface UserService {
 
 	Optional<UserDto> findByUserName(String userName);
+	void store(UserDto userDto);
 }

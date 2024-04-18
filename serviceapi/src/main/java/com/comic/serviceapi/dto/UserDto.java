@@ -1,5 +1,7 @@
 package com.comic.serviceapi.dto;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -20,4 +22,7 @@ public class UserDto {
 	private String password;
 	private boolean enable;
 	private String role;
+	
+	private LocalDate createdAt;
+	private LocalDate updatedAt;
 }
