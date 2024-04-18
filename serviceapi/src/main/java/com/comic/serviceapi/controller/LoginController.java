@@ -1,6 +1,7 @@
 package com.comic.serviceapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,6 +49,6 @@ public class LoginController {
 		userService.store(userDto);
 		JwtResponseDto token = JwtResponseDto.builder().accessToken(jwtService.GenerateToken(userDto.getUserName()))
 				.build();
-		return ResponseEntity.ok().body(token);
+		return ResponseEntity.status(HttpStatus.CREATED).body(token);
 	}
 }
