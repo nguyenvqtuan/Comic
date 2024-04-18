@@ -40,12 +40,13 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	private UserEntity toUserEntity(UserDto userDto) {
-		return model.typeMap(UserDto.class, UserEntity.class)
-				.addMappings(mapper -> {
-					mapper.map(src -> passwordEncoder.encode(src.getPassword()), UserEntity::setPassword);
-					mapper.map(src -> ROLE_USER, UserEntity::setRole);
-					mapper.map(src-> 1, UserEntity::setEnable);
-				})
-				.map(userDto);
+		UserEntity res = model.typeMap(UserDto.class, UserEntity.class)
+		.addMappings(mapper -> {
+			mapper.map(src -> ROLE_USER, UserEntity::setRole);
+			mapper.map(src-> 1, UserEntity::setEnable);
+		})
+		.map(userDto);
+		res.setPassword(passwordEncoder.encode(userDto.getPassword()));
+		return res;
 	}
 }

@@ -27,7 +27,7 @@ public class LoginController {
 	@Autowired
 	private JwtService jwtService;
 
-	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<?> login(@RequestBody UserDto userDto) {
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUserName(), userDto.getPassword()));
@@ -38,5 +38,16 @@ public class LoginController {
 			return ResponseEntity.ok().body(token);
 		}
 		return ResponseEntity.badRequest().body("BAD REQUEST!");
+	}
+
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public ResponseEntity<?> signup(@RequestBody UserDto userDto) {
+		if (userService.findByUserName(userDto.getUserName()).isPresent()) {
+			return ResponseEntity.badRequest().body("User name exists!");
+		}
+		userService.store(userDto);
+		JwtResponseDto token = JwtResponseDto.builder().accessToken(jwtService.GenerateToken(userDto.getUserName()))
+				.build();
+		return ResponseEntity.ok().body(token);
 	}
 }
