@@ -2,10 +2,9 @@ import React, { useRef } from "react";
 import ApiClient from "../assets/js/ApiClient";
 import { useNavigate } from "react-router-dom";
 
-const Singup = () => {
+const Login = () => {
 	const userNameRef = useRef();
 	const passwordRef = useRef();
-	const fullNameRef = useRef();
 
 	const navigate = useNavigate();
 
@@ -13,18 +12,15 @@ const Singup = () => {
 		e.preventDefault();
 		const userName = userNameRef.current.value;
 		const password = passwordRef.current.value;
-		const fullName = fullNameRef.current.value;
 		const formData = {
 			userName: userName,
-			fullName: fullName,
 			password: password,
 		};
-		const resp = await ApiClient.post("/signup", formData);
-		if (resp.status == 201) {
+		const resp = await ApiClient.post("/login", formData);
+		if (resp.status == 200) {
 			localStorage.setItem("token", resp.data.accessToken);
-			navigate("/");
+			navigate(-1);
 		} else {
-			alert(resp.data);
 		}
 	};
 	return (
@@ -48,18 +44,6 @@ const Singup = () => {
 							</small>
 						</div>
 						<div className="form-group">
-							<label htmlFor="fullName">Full name</label>
-							<input
-								ref={fullNameRef}
-								type="text"
-								className="form-control"
-								id="fullName"
-								aria-describedby="emailHelp"
-								placeholder="Enter full name"
-								name="fullName"
-							/>
-						</div>
-						<div className="form-group">
 							<label htmlFor="exampleInputPassword1">Password</label>
 							<input
 								ref={passwordRef}
@@ -67,7 +51,6 @@ const Singup = () => {
 								className="form-control"
 								id="exampleInputPassword1"
 								placeholder="Password"
-								name="password"
 							/>
 						</div>
 						<button type="submit" className="btn btn-primary">
@@ -80,4 +63,4 @@ const Singup = () => {
 	);
 };
 
-export default Singup;
+export default Login;

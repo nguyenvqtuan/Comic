@@ -122,9 +122,9 @@ const Nvarbar = () => {
 											Login
 										</Link>
 									</li>
-									<li className="nav-item @@register">
-										<Link className="nav-link" to="/register">
-											Register
+									<li className="nav-item @@signup">
+										<Link className="nav-link" to="/signup">
+											Sign up
 										</Link>
 									</li>
 									<li className="nav-item @@logout">
