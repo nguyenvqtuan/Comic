@@ -8,6 +8,8 @@ import Home from "./home/Home";
 import Search from "./search/Search";
 import Comic from "./single_comic/Comic";
 import ComicChapter from "./comic_chapter/ComicChapter";
+import Login from "./home/Login";
+import Signup from "./home/Signup";
 
 const App = () => {
 	return (
@@ -23,6 +25,8 @@ const App = () => {
 						path="/comic/:comicId/chapter/:id"
 						element={<ComicChapter />}
 					/>
+					<Route path="/login" element={<Login />} />
+					<Route path="/signup" element={<Signup />} />
 				</Routes>
 			</BrowserRouter>
 			<Footer />
